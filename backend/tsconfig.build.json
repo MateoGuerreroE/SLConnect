@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "references": [{ "path": "../shared" }],
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+}
