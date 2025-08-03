@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ConversationType {
+  PRIVATE
+  GROUP
+}
+
+enum UserRole {
+  USER
+  TEACHER
+  ADMIN
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+}
+
+model User {
+  userId String @id @default(uuid())
+
+  emailAddress      String    @unique
+  authHash          String
+  firstName         String
+  lastName          String
+  role              UserRole
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  phoneNumber       String?
+  career            String?
+  location          String?
+  dateOfBirth       DateTime?
+  profilePictureUrl String?
+  bio               String?
+  lastLogin         DateTime?
+  isActive          Boolean   @default(true)
+  isVerified        Boolean   @default(false)
+
+  // Relations
+  CreatedConversations Conversation[]
+  JoinedConversations  ConversationUser[]
+  SentMessages         Message[]
+  Sessions             Session[]
+}
+
+model Conversation {
+  conversationId String @id @default(uuid())
+
+  name      String? // Group only attribute
+  createdBy String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  type      ConversationType
+
+  // Relations
+  CreatedByUser User               @relation(fields: [createdBy], references: [userId])
+  Users         ConversationUser[]
+  Messages      Message[]
+}
+
+model ConversationUser {
+  conversationUserId String @id @default(uuid())
+
+  conversationId String
+  userId         String
+  joinedAt       DateTime @default(now())
+
+  // Relations
+  User         User         @relation(fields: [userId], references: [userId])
+  Conversation Conversation @relation(fields: [conversationId], references: [conversationId])
+}
+
+model Message {
+  messageId String @id @default(uuid())
+
+  conversationId String
+  senderId       String
+  messageStatus  MessageStatus
+
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  Conversation Conversation @relation(fields: [conversationId], references: [conversationId])
+  Sender       User         @relation(fields: [senderId], references: [userId])
+}
+
+model Session {
+  sessionId String @id @default(uuid())
+
+  userId           String
+  refreshTokenHash String    @unique
+  deviceInfo       String?
+  createdAt        DateTime  @default(now())
+  expiresAt        DateTime
+  revokedAt        DateTime?
+
+  // Relations
+  User User @relation(fields: [userId], references: [userId])
+}
