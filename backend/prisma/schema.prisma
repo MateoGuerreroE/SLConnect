@@ -33,22 +33,21 @@ enum MessageStatus {
 model User {
   userId String @id @default(uuid())
 
-  emailAddress      String    @unique
-  authHash          String
-  firstName         String
-  lastName          String
-  role              UserRole
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  phoneNumber       String?
-  career            String?
-  location          String?
-  dateOfBirth       DateTime?
-  profilePictureUrl String?
-  bio               String?
-  lastLogin         DateTime?
-  isActive          Boolean   @default(true)
-  isVerified        Boolean   @default(false)
+  emailAddress String    @unique
+  authHash     String
+  firstName    String
+  lastName     String
+  role         UserRole
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  phoneNumber  String?
+  career       String?
+  location     String?
+  dateOfBirth  DateTime?
+  bio          String?
+  lastLogin    DateTime?
+  isActive     Boolean   @default(true)
+  isVerified   Boolean   @default(false)
 
   // Relations
   CreatedConversations Conversation[]
@@ -57,6 +56,7 @@ model User {
   Sessions             Session[]
 }
 
+// TODO Conversations should be archived - Next version feature?
 model Conversation {
   conversationId String @id @default(uuid())
 
@@ -65,6 +65,7 @@ model Conversation {
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
   type      ConversationType
+  isDeleted Boolean          @default(false)
 
   // Relations
   CreatedByUser User               @relation(fields: [createdBy], references: [userId])

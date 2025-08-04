@@ -1,8 +1,7 @@
-export enum UserRole {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
-  TEACHER = 'TEACHER',
-}
+import { ConversationRecord, ConversationUserRecord } from "./conversation";
+import { MessageRecord } from "./messages";
+
+export type UserRole = "ADMIN" | "USER" | "TEACHER";
 
 export interface UserRecord {
   userId: string;
@@ -13,19 +12,33 @@ export interface UserRecord {
   role: UserRole;
   createdAt: Date;
   updatedAt: Date;
-  phoneNumber?: string;
-  career?: string;
-  location?: string;
-  profilePictureUrl?: string;
-  bio?: string;
-  lastLogin?: Date;
+  phoneNumber?: string | null;
+  career?: string | null;
+  location?: string | null;
+  profilePictureUrl?: string | null;
+  bio?: string | null;
+  lastLogin?: Date | null;
   isActive: boolean;
   isVerified: boolean;
 }
 
 export interface UserRelations {
-  CreatedConversations: any[];
-  JoinedConversations: any[];
-  SentMessages: any[];
-  Sessions: any[];
+  CreatedConversations: ConversationRecord[];
+  JoinedConversations: ConversationUserRecord[];
+  SentMessages: MessageRecord[];
+  Sessions: SessionRecord[];
+}
+
+export interface SessionRecord {
+  sessionId: string;
+  userId: string;
+  refreshTokenHash: string;
+  deviceInfo?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  revokedAt?: Date | null;
+}
+
+export interface SessionRelations {
+  User: UserRecord;
 }
