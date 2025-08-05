@@ -35,7 +35,7 @@ export interface SessionRecord {
   refreshTokenHash: string;
   deviceInfo?: string | null;
   createdAt: Date;
-  updatedAt: Date;
+  expiredAt: Date;
   revokedAt?: Date | null;
 }
 
