@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../datasource';
 import { ConversationRecord } from '@slchatapp/shared';
-import { CreateConversationDTO } from 'src/types';
+import { ICreateConversation } from 'src/types';
 
 @Injectable()
 export class ConversationRepository {
@@ -35,7 +35,7 @@ export class ConversationRepository {
   }
 
   async createConversation(
-    data: CreateConversationDTO,
+    data: ICreateConversation,
   ): Promise<ConversationRecord> {
     return this.prisma.conversation.create({
       data: {

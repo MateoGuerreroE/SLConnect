@@ -7,9 +7,10 @@ export class CreateConversationDTO {
   @IsString()
   name?: string;
 
-  @IsString()
-  createdBy: string;
-
   @IsIn(['GROUP', 'PRIVATE'])
   type: ConversationType;
+}
+
+export interface ICreateConversation extends CreateConversationDTO {
+  createdBy: string;
 }
