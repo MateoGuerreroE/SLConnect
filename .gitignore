@@ -1,5 +1,18 @@
 node_modules/
 
+# Build outputs - ignore dist folders anywhere
+dist/
+**/dist/
+lib/
+**/lib/
+build/
+**/build/
+generated/
+**/generated/
+
+# TypeScript build cache
+*.tsbuildinfo
+**/*.tsbuildinfo
 
 ## BE
 # compiled output
