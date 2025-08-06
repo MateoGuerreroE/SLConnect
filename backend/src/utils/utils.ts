@@ -1,4 +1,9 @@
-import { ErrorType, ServerError } from 'src/types';
+import {
+  ControllerResponse,
+  ErrorType,
+  ServerError,
+  ServerResponse,
+} from 'src/types';
 
 export function handleServiceError(
   error: unknown,
@@ -20,16 +25,20 @@ export function handleServiceError(
   });
 }
 
-export function handleControllerError(error: unknown): never {
+export function handleControllerError(
+  error: unknown,
+): ControllerResponse<never> {
   if (error instanceof ServerError) {
-    throw error;
+    return ServerResponse.failure(error);
   }
 
   // This should never be executed as all errors should be handled in the service layer
-  throw new ServerError('An unexpected error occurred', {
+  const unhandledError = new ServerError('An unexpected error occurred', {
     name: 'ControllerError',
     trace: '[Controller] Unknown',
     reason: (error as Error).message,
     type: ErrorType.UNKNOWN,
   });
+
+  return ServerResponse.failure(unhandledError);
 }

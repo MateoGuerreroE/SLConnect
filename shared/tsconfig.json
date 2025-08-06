@@ -4,6 +4,7 @@
     "outDir": "dist",
     "declaration": true,
     "declarationMap": true,
+    "composite": true,
     "removeComments": true,
     "target": "ES6",
     "baseUrl": "./",

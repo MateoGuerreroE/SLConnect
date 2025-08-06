@@ -1,7 +1,11 @@
+import { ValidationError } from '@nestjs/common';
+import { parseErrors } from 'src/utils/validation';
+
 export enum ErrorCode {
   SERVER_ERROR = 'SERVER_ERROR',
   NOT_FOUND = 'NOT_FOUND',
   UNAUTHORIZED = 'UNAUTHORIZED',
+  BAD_REQUEST = 'BAD_REQUEST',
 }
 
 export enum ErrorType {
@@ -45,6 +49,8 @@ export class ServerError extends Error {
         return 404;
       case ErrorCode.UNAUTHORIZED:
         return 401;
+      case ErrorCode.BAD_REQUEST:
+        return 400;
       default:
         return 500;
     }
@@ -57,6 +63,16 @@ export class NotFoundError extends ServerError {
       code: ErrorCode.NOT_FOUND,
       type: ErrorType.VALIDATION,
       name: 'NotFoundError',
+    });
+  }
+}
+
+export class InvalidRequestError extends ServerError {
+  constructor(validationErrors: ValidationError[]) {
+    super('Invalid request: ' + parseErrors(validationErrors), {
+      code: ErrorCode.BAD_REQUEST,
+      type: ErrorType.VALIDATION,
+      name: 'InvalidRequestError',
     });
   }
 }
