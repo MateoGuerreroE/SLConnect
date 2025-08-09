@@ -12,6 +12,7 @@ export enum ErrorType {
   DATA = 'DATA',
   VALIDATION = 'VALIDATION',
   UNKNOWN = 'UNKNOWN',
+  AUTHORIZATION = 'AUTHORIZATION',
 }
 
 export class ServerError extends Error {
@@ -73,6 +74,16 @@ export class InvalidRequestError extends ServerError {
       code: ErrorCode.BAD_REQUEST,
       type: ErrorType.VALIDATION,
       name: 'InvalidRequestError',
+    });
+  }
+}
+
+export class UnauthorizedError extends ServerError {
+  constructor(message: string = 'Unauthorized access') {
+    super(message, {
+      code: ErrorCode.UNAUTHORIZED,
+      type: ErrorType.AUTHORIZATION,
+      name: 'UnauthorizedError',
     });
   }
 }

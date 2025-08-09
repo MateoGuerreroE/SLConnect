@@ -35,10 +35,16 @@ export interface SessionRecord {
   refreshTokenHash: string;
   deviceInfo?: string | null;
   createdAt: Date;
-  expiredAt: Date;
+  expiresAt: Date;
   revokedAt?: Date | null;
 }
 
 export interface SessionRelations {
   User: UserRecord;
+}
+
+export interface UserLoginResponse {
+  user: UserRecord;
+  token: string;
+  // TODO Add here refresh token
 }

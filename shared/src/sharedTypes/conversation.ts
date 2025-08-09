@@ -7,6 +7,7 @@ export interface ConversationRecord {
   name?: string | null;
   createdBy: string;
   createdAt: Date;
+  isDeleted: boolean;
   updatedAt: Date;
   type: ConversationType;
 }

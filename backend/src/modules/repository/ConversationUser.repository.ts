@@ -17,6 +17,20 @@ export class ConversationUserRepository {
     });
   }
 
+  async verifyUserInConversation(
+    conversationId: string,
+    userId: string,
+  ): Promise<boolean> {
+    const conversationuser = await this.prisma.conversationUser.count({
+      where: {
+        conversationId: conversationId,
+        userId: userId,
+      },
+    });
+
+    return conversationuser > 0;
+  }
+
   async removeUserFromConversation(
     conversationId: string,
     userId: string,

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../datasource';
 import { MessageRecord } from '@slchatapp/shared';
-import { CreateMessageDTO } from 'src/types';
+import { CreateMessageData } from 'src/types';
 
 @Injectable()
 export class MessageRepository {
@@ -35,7 +35,7 @@ export class MessageRepository {
     });
   }
 
-  async createMessage(data: CreateMessageDTO): Promise<MessageRecord> {
+  async createMessage(data: CreateMessageData): Promise<MessageRecord> {
     return this.prisma.message.create({
       data: {
         ...data,

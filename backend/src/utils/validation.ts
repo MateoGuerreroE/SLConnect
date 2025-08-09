@@ -5,6 +5,7 @@ import {
   ErrorType,
   InvalidRequestError,
   ServerError,
+  UnauthorizedError,
 } from 'src/types';
 
 /**
@@ -46,4 +47,14 @@ export function parseErrors(validateErrors: ValidationError[]): string {
       return `[${target}] ${constraints}`;
     })
     .join('; ');
+}
+
+export function validatePublicRequest(iam: string | undefined): void {
+  if (!iam) {
+    throw new UnauthorizedError('Missing permissions');
+  }
+
+  if (iam !== process.env.IAM_PUBLIC_KEY) {
+    throw new UnauthorizedError('Invalid Access Permissions');
+  }
 }

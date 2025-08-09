@@ -31,6 +31,10 @@ export class ConversationRepository {
       where: {
         conversationId,
       },
+      include: {
+        Messages: true,
+        Users: true,
+      },
     });
   }
 

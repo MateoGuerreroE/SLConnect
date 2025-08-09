@@ -5,8 +5,9 @@ export class CreateMessageDTO {
   conversationId: string;
 
   @IsString()
-  senderId: string;
-
-  @IsString()
   content: string;
+}
+
+export class CreateMessageData extends CreateMessageDTO {
+  senderId: string;
 }

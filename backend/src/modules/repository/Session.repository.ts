@@ -22,6 +22,22 @@ export class SessionRepository {
     });
   }
 
+  async createSession(
+    userId: string,
+    refreshToken: string,
+  ): Promise<SessionRecord> {
+    const refDate = new Date();
+    const expiresAt = new Date().setMonth(refDate.getMonth() + 2);
+
+    return this.prisma.session.create({
+      data: {
+        userId,
+        expiresAt: new Date(expiresAt),
+        refreshTokenHash: refreshToken,
+      },
+    });
+  }
+
   async revokeSession(sessionId: string): Promise<void> {
     await this.prisma.session.update({
       where: { sessionId },

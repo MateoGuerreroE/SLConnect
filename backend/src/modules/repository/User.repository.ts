@@ -37,6 +37,13 @@ export class UserRepository {
     });
   }
 
+  async updateUserLastLogin(userId: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { userId },
+      data: { lastLogin: new Date() },
+    });
+  }
+
   // Soft deletion
   async removeUser(userId: string): Promise<string> {
     const user = await this.prisma.user.update({
