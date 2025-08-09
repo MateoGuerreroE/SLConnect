@@ -65,6 +65,12 @@ SaintLeoConnect se desarrollará bajo indicaciones y limitaciones futuras del cu
 
 ---
 
-**Fase actual:** Borrador inicial / Diseño funcional.
+**Fase actual:**
+
+Actualmente el proyecto está inicializado y su desarrollo inicia en la parte del servidor. Asegurándose que todo se conecte correctamente intentando la simplicidad para una primera versión (MVP) con solo 5 entidades y 4 principales. Donde 3 entidades son objetos y una es una tabla de conexión many-to-many.
+
+El desarrollo del servidor se desarrolla en NestJS con una infraestructura modular intentando dividir responsabilidades por capas. Interacción con base de datos, lógica de negocio y la capa de manejo de peticiones HTTP. El despliegue de este servicio, por ser MVP se realizará en Render, lo cual servirá para demo pero no demostrará una latencia real (Aunque base de datos y servidor deberían quedar en la misma zona geográfica)
+
+Para una primera versión no se planea el desarrollo de algunas características muy específicas como grupos personalizados (para trabajos en grupo). Solamente contempla grupos por materia moderados por un profesor, y mensajes directos usuario a usuario. Tambien contempla un rol adicional de administrador que se encargará de moderar toda la aplicación con los permisos más altos
 
 

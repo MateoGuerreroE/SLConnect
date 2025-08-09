@@ -96,3 +96,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+## Future Improvements
+
+- Server is adapted to always respond with 2** status, so that connected UI never crashes and always expect a definite structure as a response. But for tracking and logging a cloud service or file + R2 can be an option to keep track of errors, specially on uat or prod envs.

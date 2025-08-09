@@ -1,13 +1,24 @@
 {
-  "name": "SLConnect",
+  "name": "slconnect",
   "version": "1.0.0",
-  "description": "",
+  "description": "A monorepo for SLChatApp with backend, mobile, and shared packages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pnpm -r build",
+    "dev": "pnpm -r --parallel dev",
+    "start": "pnpm -r --parallel start",
+    "test": "pnpm -r test",
+    "install:all": "pnpm install"
   },
-  "keywords": [],
+  "keywords": [
+    "chat",
+    "app",
+    "monorepo"
+  ],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
 }
