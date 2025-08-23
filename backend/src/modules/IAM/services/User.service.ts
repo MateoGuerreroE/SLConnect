@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { UserLoginResponse } from '@slchatapp/shared';
+import jwt from 'jsonwebtoken';
 import { UserRepository } from 'src/modules/repository';
 import { CreateUserDTO, ServerError, UnauthorizedError } from 'src/types';
-import { Hasher } from './Hashing';
 import { handleServiceError } from 'src/utils/utils';
-import jwt from 'jsonwebtoken';
-import { UserLoginResponse } from '@slchatapp/shared';
+import { Hasher } from './Hashing';
 import { SessionService } from './Session.service';
 
 @Injectable()
@@ -70,7 +70,7 @@ export class UserService {
       await this.userRepository.updateUserLastLogin(user.userId);
 
       return {
-        user,
+        user: { ...user, authHash: '' },
         token,
         refreshToken: session.refreshToken,
       };

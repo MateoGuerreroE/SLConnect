@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post, Query, Headers } from '@nestjs/common';
-import { UserService } from '../services/User.service';
-import { UserRecord, UserLoginResponse } from '@slchatapp/shared';
+import { Body, Controller, Get, Headers, Post, Query } from '@nestjs/common';
+import { UserLoginResponse, UserRecord } from '@slchatapp/shared';
 import {
   ControllerResponse,
   CreateUserDTO,
@@ -10,6 +9,7 @@ import {
 } from 'src/types';
 import { handleControllerError } from 'src/utils/utils';
 import { validateBody, validatePublicRequest } from 'src/utils/validation';
+import { UserService } from '../services/User.service';
 
 @Controller('user')
 export class UserController {
@@ -41,7 +41,7 @@ export class UserController {
         data.emailAddress,
         data.password,
       );
-      return ServerResponse.success(response);
+      return ServerResponse.success(response, 200);
     } catch (e) {
       return handleControllerError(e);
     }
