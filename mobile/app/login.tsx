@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { AuthService } from "../services/auth";
+import { FontFamilies } from "../utils/fonts";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "#D9D9D9",
-    fontFamily: "SFPro",
+    fontFamily: FontFamilies.primary,
     paddingHorizontal: 15,
     paddingVertical: 20,
     borderRadius: 8,
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "black",
-    fontFamily: "SFPro",
+    fontFamily: FontFamilies.primary,
     fontSize: 18,
     fontWeight: "bold",
   },
