@@ -1,3 +1,4 @@
+import { MessageRecord } from "./messages";
 import { UserRecord } from "./user";
 
 export type ConversationType = "PRIVATE" | "GROUP";
@@ -10,11 +11,14 @@ export interface ConversationRecord {
   isDeleted: boolean;
   updatedAt: Date;
   type: ConversationType;
+  _count?: {
+    Users: number;
+  };
 }
 
 export interface ConversationRelations {
-  CreatedByUser: UserRecord;
   Users: ConversationUserRecord[];
+  Messages: MessageRecord[];
 }
 
 export interface ConversationUserRecord {

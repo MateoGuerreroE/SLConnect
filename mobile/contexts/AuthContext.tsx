@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface AuthContextType {
   user: UserRecord | null;
   loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
 }
@@ -14,6 +15,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserRecord | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const login = async (email: string, password: string) => {
+    try {
+      const { user: userData } = await AuthService.login(email, password);
+      setUser(userData);
+    } catch (error) {
+      throw error; // Re-throw to let the login screen handle it
+    }
+  };
 
   const logout = async () => {
     try {
@@ -56,7 +66,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout, refreshToken }}>
+    <AuthContext.Provider
+      value={{ user, loading, login, logout, refreshToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -28,40 +28,59 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        tabBarLabelStyle: {
+          fontFamily: "SFPro", // Custom font for labels
+          fontSize: 12,
+          fontWeight: "500",
+          marginTop: 4,
+        },
+        tabBarIconStyle: {
+          marginBottom: 2,
+        },
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
             position: "absolute",
+            height: 85,
+            paddingTop: 8,
+            paddingBottom: 10,
           },
-          default: {},
+          default: {
+            border: 0,
+            backgroundColor: "#07553D",
+            justifyContent: "center",
+            height: 75,
+            paddingTop: 6,
+            paddingBottom: 8,
+          },
         }),
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Chats",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={28} name="message.fill" color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="main"
         options={{
-          title: "Explore",
+          title: "Groups",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="person.3.fill" color={color} />
           ),
         }}
       />
       {user && (
         <Tabs.Screen
-          name="profile"
+          name="settings"
           options={{
-            title: "Profile",
+            title: "Settings",
             tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="person.fill" color={color} />
+              <IconSymbol size={28} name="gear.circle.fill" color={color} />
             ),
           }}
         />

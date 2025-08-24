@@ -7,6 +7,7 @@ import { useFonts } from "expo-font";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator, Text, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
@@ -48,18 +49,15 @@ function RootLayoutNav() {
   useEffect(() => {
     if (loading || !navigationReady) return;
 
-    console.log("Navigation effect:", { user: !!user, segments });
-
-    const inAuthGroup = segments[0] === "login";
+    const inAuthGroup =
+      segments[0] === "login" || segments[0] === "resetPassword";
 
     if (!user && !inAuthGroup) {
-      console.log("Redirecting to login");
       router.replace("/login");
     } else if (user && inAuthGroup) {
-      console.log("Redirecting to tabs");
       router.replace("/(tabs)");
     }
-  }, [user, loading, segments, navigationReady]);
+  }, [user, loading, segments, navigationReady, router]);
 
   // Show loading screen while checking auth OR navigation isn't ready
   if (loading || !navigationReady) {
@@ -69,6 +67,7 @@ function RootLayoutNav() {
   return (
     <Stack>
       <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="resetPassword" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="+not-found" />
     </Stack>
@@ -87,11 +86,15 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <RootLayoutNav />
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <RootLayoutNav />
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }

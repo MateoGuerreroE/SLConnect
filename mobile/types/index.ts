@@ -1,3 +1,5 @@
+import { ConversationRecord, ConversationRelations } from "@slchatapp/shared";
+
 export type ControllerResponse<T> = SuccessResponse<T> | FailedResponse;
 
 export interface SuccessResponse<T> {
@@ -12,3 +14,6 @@ export interface FailedResponse {
   statusCode: number;
   isSuccess: false;
 }
+
+export type ConversationWithRelations = ConversationRecord &
+  ConversationRelations;

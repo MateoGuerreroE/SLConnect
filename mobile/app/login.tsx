@@ -4,20 +4,25 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Keyboard,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { AuthService } from "../services/auth";
+import { useAuth } from "../contexts/AuthContext";
 import { FontFamilies } from "../utils/fonts";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -27,23 +32,23 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const { user, token } = await AuthService.login(email, password);
-
-      console.log(user, token);
-      // Navigate to main app
-      router.replace("/(tabs)"); // or wherever your main app is
+      await login(email, password);
+      console.log("Login successful, redirecting...");
+      // The navigation will be handled automatically by _layout.tsx
+      // when the user state changes in AuthContext
     } catch (error) {
+      console.log(error);
       Alert.alert("Login Failed", (error as Error).message);
     } finally {
       setLoading(false);
     }
   };
 
-  return (
+  const renderContent = () => (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          source={require("../assets/images/slu-logo.png")} // Your custom asset
+          source={require("../assets/images/slu-logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -51,6 +56,7 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Correo"
+        placeholderTextColor="#666666"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -61,10 +67,19 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
+        placeholderTextColor="#666666"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
+      <TouchableOpacity
+        style={styles.forgotPasswordContainer}
+        onPress={() => router.push("/resetPassword")}
+      >
+        <Text style={styles.forgotPasswordText}>
+          ¿Olvidaste tu contraseña?
+        </Text>
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
@@ -79,6 +94,17 @@ export default function LoginScreen() {
       </TouchableOpacity>
     </View>
   );
+
+  // Only use TouchableWithoutFeedback on mobile platforms
+  if (Platform.OS === 'web') {
+    return renderContent();
+  }
+
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      {renderContent()}
+    </TouchableWithoutFeedback>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -89,6 +115,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#001B13",
     paddingLeft: 40,
     paddingRight: 40,
+  },
+  forgotPasswordContainer: {
+    alignSelf: "flex-end",
+    marginBottom: 20,
+    marginTop: 5,
+  },
+  forgotPasswordText: {
+    color: "#FDB924",
+    fontSize: 14,
+    fontFamily: FontFamilies.primary,
+    textAlign: "right",
   },
   logoContainer: {
     alignSelf: "center",

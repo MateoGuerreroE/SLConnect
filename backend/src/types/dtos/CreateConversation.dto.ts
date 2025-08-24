@@ -9,8 +9,14 @@ export class CreateConversationDTO {
 
   @IsIn(['GROUP', 'PRIVATE'])
   type: ConversationType;
+
+  @ValidateIf((data: CreateConversationDTO) => data.type === 'PRIVATE')
+  @IsNotEmpty()
+  @IsString()
+  targetUserId?: string;
 }
 
-export interface ICreateConversation extends CreateConversationDTO {
+export interface ICreateConversation
+  extends Omit<CreateConversationDTO, 'targetUserId'> {
   createdBy: string;
 }
