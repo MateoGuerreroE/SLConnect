@@ -1,4 +1,4 @@
-import { ConversationRecord, ConversationUserRecord } from "./conversation";
+import { ConversationUserRecord } from "./conversation";
 import { MessageRecord } from "./messages";
 
 export type UserRole = "ADMIN" | "USER" | "TEACHER";
@@ -23,7 +23,6 @@ export interface UserRecord {
 }
 
 export interface UserRelations {
-  CreatedConversations: ConversationRecord[];
   JoinedConversations: ConversationUserRecord[];
   SentMessages: MessageRecord[];
   Sessions: SessionRecord[];
@@ -46,5 +45,6 @@ export interface SessionRelations {
 export interface UserLoginResponse {
   user: UserRecord;
   token: string;
+  refreshToken: string;
   // TODO Add here refresh token
 }

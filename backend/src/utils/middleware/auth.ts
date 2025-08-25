@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { UserRole } from '@slchatapp/shared';
-import { Request } from 'express';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import {
   ErrorCode,
   ErrorType,
@@ -9,7 +9,6 @@ import {
   ServerResponse,
   UnauthorizedError,
 } from 'src/types';
-import jwt from 'jsonwebtoken';
 
 export interface JWTUser {
   userId: string;

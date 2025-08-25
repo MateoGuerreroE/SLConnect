@@ -1,5 +1,6 @@
 import { ValidationError } from '@nestjs/common';
 import { parseErrors } from 'src/utils/validation';
+import { ErrorStatusCode } from './response';
 
 export enum ErrorCode {
   SERVER_ERROR = 'SERVER_ERROR',
@@ -42,7 +43,7 @@ export class ServerError extends Error {
     this.reason = opts?.reason;
   }
 
-  getStatusCode(): number {
+  getStatusCode(): ErrorStatusCode {
     switch (this.code) {
       case ErrorCode.SERVER_ERROR:
         return 500;

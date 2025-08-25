@@ -50,10 +50,9 @@ model User {
   isVerified   Boolean   @default(false)
 
   // Relations
-  CreatedConversations Conversation[]
-  JoinedConversations  ConversationUser[]
-  SentMessages         Message[]
-  Sessions             Session[]
+  JoinedConversations ConversationUser[]
+  SentMessages        Message[]
+  Sessions            Session[]
 }
 
 // TODO Conversations should be archived - Next version feature?
@@ -68,9 +67,8 @@ model Conversation {
   isDeleted Boolean          @default(false)
 
   // Relations
-  CreatedByUser User               @relation(fields: [createdBy], references: [userId])
-  Users         ConversationUser[]
-  Messages      Message[]
+  Users    ConversationUser[]
+  Messages Message[]
 }
 
 model ConversationUser {

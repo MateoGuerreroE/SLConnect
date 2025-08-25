@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../datasource';
-import { ConversationRecord } from '@slchatapp/shared';
+import { ConversationRecord, ConversationType } from '@slchatapp/shared';
 import { ICreateConversation } from 'src/types';
+import { PrismaService } from '../datasource';
 
 @Injectable()
 export class ConversationRepository {
@@ -10,6 +10,8 @@ export class ConversationRepository {
   // TODO Missing all conversation fetch for a admin panel maybe?
   async getConversationsByUserId(
     userId: string,
+    type?: ConversationType,
+    includeLastMessages?: boolean,
   ): Promise<ConversationRecord[]> {
     const conversations = await this.prisma.conversation.findMany({
       where: {
@@ -18,10 +20,43 @@ export class ConversationRepository {
             userId: userId,
           },
         },
+        ...(type && { type }),
+      },
+      include: {
+        _count: {
+          select: { Users: true },
+        },
+        Users: {
+          where: { Conversation: { type: 'PRIVATE' } },
+          select: {
+            User: {
+              select: {
+                firstName: true,
+                lastName: true,
+                emailAddress: true,
+              },
+            },
+          },
+        },
+        ...(includeLastMessages && {
+          Messages: {
+            select: { content: true, senderId: true },
+            orderBy: { createdAt: 'desc' },
+            take: 1,
+          },
+        }),
       },
     });
 
-    return conversations;
+    return conversations.map((conv) => {
+      if (conv.type === 'PRIVATE') {
+        return {
+          ...conv,
+          name: `${conv.Users[0]?.User.firstName} & ${conv.Users[1]?.User.firstName ?? ''}`,
+        };
+      }
+      return conv;
+    });
   }
 
   async getConversationById(

@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.mateof1223.slchat",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIAppFonts": ["SF-Pro.ttf", "SpaceMono-Regular.ttf"]
       }
     },
     "android": {
@@ -20,7 +21,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "assets": ["./assets/fonts/"]
     },
     "web": {
       "bundler": "metro",
